@@ -1,0 +1,63 @@
+package lineage.network.packet.server;
+
+import lineage.network.packet.BasePacket;
+import lineage.network.packet.Opcodes;
+import lineage.network.packet.ServerBasePacket;
+
+public class S_AdenShop extends ServerBasePacket {
+
+	static synchronized public BasePacket clone(BasePacket bp, int type){
+		if(bp == null)
+			bp = new S_AdenShop(type);
+		else
+			((S_AdenShop)bp).toClone(type);
+		return bp;
+	}
+	
+	public S_AdenShop(int type){
+		toClone(type);
+	}
+	
+	public void toClone(int type){
+		clear();
+		writeC(Opcodes.S_OPCODE_ADENSHOP);
+		switch(type) {
+			case 0x02:	// 아덴상점 열기
+				writeB(new byte[]{
+//						(byte)0x02, (byte)0x00, (byte)0x00, (byte)0xf4, (byte)0xff, (byte)0xff, (byte)0xff, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0xaa, (byte)0x08
+						(byte)0x02, (byte)0x00, (byte)0x00, (byte)0xf4, (byte)0xff, (byte)0xff, (byte)0xff, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00
+				});
+				break;
+			case 0x03:	// n코인 설정
+				writeB(new byte[]{
+//						(byte)0x03, (byte)0x00, (byte)0x01, (byte)0x00, (byte)0x04, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x02, (byte)0x00
+						(byte)0x03, (byte)0x00, (byte)0x01, (byte)0x00, (byte)0x04, (byte)0x00
+				});
+				writeD(200000);	// nCoin 갯수
+				break;
+			case 0x05:	// 구매성공 및 실패 처리
+				writeB(new byte[]{
+						// 성공
+//						(byte)0x05, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x09, (byte)0x6c
+						// 1회 실패
+//						(byte)0x05, (byte)0x00, (byte)0x0b, (byte)0xf2, (byte)0xff, (byte)0xff, (byte)0xff, (byte)0x01, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00
+						// 5회 실패로 패스워드창 닫히면서 어쩌구하는 패킷
+						(byte)0x05, (byte)0x00, (byte)0x0b, (byte)0xf1, (byte)0xff, (byte)0xff, (byte)0xff, (byte)0x05, (byte)0x00, (byte)0x80, (byte)0x70, (byte)0x00, (byte)0x00
+				});
+				break;
+			case 0x0c:	// 이메일 설정
+				writeB(new byte[]{ 
+						(byte)0x0c, (byte)0x00, (byte)0x24, (byte)0x00, (byte)0x61, (byte)0x00, (byte)0x6d, (byte)0x00, (byte)0x2d, (byte)0x00, (byte)0x31, (byte)0x00, (byte)0x38, (byte)0x00, (byte)0x40,
+						(byte)0x00, (byte)0x68, (byte)0x00, (byte)0x61, (byte)0x00, (byte)0x6e, (byte)0x00, (byte)0x6d, (byte)0x00, (byte)0x61, (byte)0x00, (byte)0x69, (byte)0x00, (byte)0x6c, (byte)0x00, (byte)0x2e,
+						(byte)0x00, (byte)0x6e, (byte)0x00, (byte)0x65, (byte)0x00, (byte)0x74, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0xcb, (byte)0x77
+				});
+				break;
+			case 0x33:	// 비밀번호창 띄우기
+				writeB(new byte[]{ 
+						(byte)0x33, (byte)0x00, (byte)0x01, (byte)0x00, (byte)0x1c, (byte)0x4a
+				});
+				break;
+		}
+	}
+
+}

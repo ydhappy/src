@@ -1,0 +1,43 @@
+package lineage.world.object.npc.shop;
+
+import lineage.bean.database.Npc;
+import lineage.network.packet.BasePacketPooling;
+import lineage.network.packet.ClientBasePacket;
+import lineage.network.packet.server.S_Html;
+import lineage.share.Lineage;
+import lineage.world.controller.ChattingController;
+import lineage.world.object.instance.PcInstance;
+import lineage.world.object.instance.ShopInstance;
+
+public class Isvall extends ShopInstance {
+
+	public Isvall(Npc npc) {
+		super(npc);
+	}
+
+	@Override
+	public void toTalk(PcInstance pc, ClientBasePacket cbp) {
+		pc.toSender(S_Html.clone(BasePacketPooling.getPool(S_Html.class), this, "isvall1"));
+	}
+
+	@Override
+	public void toTalk(PcInstance pc, String action, String type,
+			ClientBasePacket cbp, Object... opt) {
+		if (action.equalsIgnoreCase("teleportURL")) {
+			if (pc.getLevel() > 44) {
+				pc.toSender(S_Html.clone(BasePacketPooling.getPool(S_Html.class), this, "isvall2"));
+			} else {
+				pc.toSender(S_Html.clone(BasePacketPooling.getPool(S_Html.class), this, "isvall3"));
+			}
+		}
+		if (action.equalsIgnoreCase("teleport isvall")) {
+			if (pc.getInventory().isAden("아데나", 10000, true)) 
+				
+			pc.toPotal(32933, 33044, 70);
+			else
+				ChattingController.toChatting(pc, "[이스발] 아데나 10000원이 부족합니다.", Lineage.CHATTING_MODE_MESSAGE);
+			//창닫기
+			pc.toSender(S_Html.clone(BasePacketPooling.getPool(S_Html.class), this, ""));
+		}
+	}
+}

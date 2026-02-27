@@ -1,0 +1,32 @@
+package lineage.world.object.npc.quest;
+
+import lineage.bean.database.Npc;
+import lineage.network.packet.BasePacketPooling;
+import lineage.network.packet.ClientBasePacket;
+import lineage.network.packet.server.S_Html;
+import lineage.share.Lineage;
+import lineage.world.object.instance.PcInstance;
+import lineage.world.object.instance.QuestInstance;
+
+public class Aras extends QuestInstance {
+	
+	public Aras(Npc npc){
+		super(npc);
+	}
+	
+	@Override
+	public void toTalk(PcInstance pc, ClientBasePacket cbp){
+		switch(pc.getClassType()) {
+			case 0x02:
+				if(pc.getLawful() < Lineage.NEUTRAL)
+					pc.toSender(S_Html.clone(BasePacketPooling.getPool(S_Html.class), this, "aras12"));
+				else
+					pc.toSender(S_Html.clone(BasePacketPooling.getPool(S_Html.class), this, "aras7"));
+				break;
+			default:
+				pc.toSender(S_Html.clone(BasePacketPooling.getPool(S_Html.class), this, "aras11"));
+				break;
+		}
+	}
+
+}

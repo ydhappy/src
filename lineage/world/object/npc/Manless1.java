@@ -1,0 +1,29 @@
+package lineage.world.object.npc;
+
+import lineage.bean.database.Npc;
+import lineage.network.packet.BasePacketPooling;
+import lineage.network.packet.ClientBasePacket;
+import lineage.network.packet.server.S_Html;
+import lineage.world.controller.CharacterController;
+import lineage.world.object.instance.PcInstance;
+import lineage.world.object.instance.ShopInstance;
+
+//[무인]장사꾼 인형상점
+public class Manless1 extends ShopInstance {
+	
+	public Manless1(Npc npc){
+		super(npc);
+		
+		// 관리목록에 등록. toTimer가 호출되도록 하기 위해.
+		CharacterController.toWorldJoin(this);
+		// 20초 단위로 멘트 표현.
+		ment_show_sec = 20;
+		// 멘트
+		list_ment.add("");
+	}
+
+
+	public void toTalk(PcInstance pc, ClientBasePacket cbp) {
+		pc.toSender(S_Html.clone(BasePacketPooling.getPool(S_Html.class), this, "Manless1"));
+	}
+}
